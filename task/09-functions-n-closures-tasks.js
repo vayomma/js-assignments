@@ -26,7 +26,8 @@
  *
  */
 function getComposition(f,g) {
-    throw new Error('Not implemented');
+    return (x) => f(g(x));
+    // throw new Error('Not implemented');
 }
 
 
@@ -47,7 +48,8 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
-    throw new Error('Not implemented');
+    return (x) => Math.pow(x, exponent);
+    // throw new Error('Not implemented');
 }
 
 
@@ -171,7 +173,9 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    let count = startFrom;
+    return () => count++;
+    // throw new Error('Not implemented');
 }
 
 
