@@ -230,8 +230,8 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
-    throw new Error('Not implemented');
-    // return typeof +value === 'number' ? +value : (+value instanceof Number ? +value : def);
+    // throw new Error('Not implemented');
+    return isFinite(+value) ? +value : def;
 }
 
 module.exports = {
