@@ -57,8 +57,8 @@ function getJSON(obj) {
  *
  */
 function fromJSON(proto, json) {
-    return Object.assign(new proto.constructor(), JSON.parse(json));
-    // throw new Error('Not implemented');
+    // return Object.assign(new proto.constructor(), JSON.parse(json));
+    throw new Error('Not implemented');
 }
 
 
@@ -113,30 +113,37 @@ function fromJSON(proto, json) {
 const cssSelectorBuilder = {
 
     element: function(value) {
+        // return `${value}`;
         throw new Error('Not implemented');
     },
 
     id: function(value) {
+        // return `#${value}`;
         throw new Error('Not implemented');
     },
 
     class: function(value) {
+        // return `.${value}`;
         throw new Error('Not implemented');
     },
 
     attr: function(value) {
+        // return `[${value}]`;
         throw new Error('Not implemented');
     },
 
     pseudoClass: function(value) {
+        // return `:${value}`;
         throw new Error('Not implemented');
     },
 
     pseudoElement: function(value) {
+        // return `::${value}`;
         throw new Error('Not implemented');
     },
 
     combine: function(selector1, combinator, selector2) {
+        // return `${selector1} ${combinator} ${selector2}`;
         throw new Error('Not implemented');
     },
 };
