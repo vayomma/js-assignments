@@ -98,10 +98,16 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    // yield root;
-    // if (typeof root.children.length > 0) 
-    //     yield* root.children.map(node => depthTraversalTree(Object.assign({}, node)));
-    throw new Error('Not implemented');
+    let stack = [root];
+    
+    while (stack.length > 0) {
+        let node = stack.pop();
+        yield node;
+        if (node.children) {
+            Array.prototype.push.apply(stack, node.children.map(x => x).reverse());
+        }
+    }
+    // throw new Error('Not implemented');
 }
 
 
@@ -127,20 +133,13 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    // let queue = [root];
-    // let node, children;
-    // while(queue.length > 0) {
-    //     // node = {n: undefined, children: []};
-    //     // Object.assign(node, queue[0]);
-    //     // node.children = [...queue[0].children];
-    //     node = queue[0];
-    //     children = queue[0].children;
-    //     queue = queue.slice(1);
-    //     // children = node['children'];
-    //     yield node;
-    //     if (children > 0) queue = [...queue, ...node.children.map(x => {n: x.n; children: [...x.children]})];
-    // }   
-    throw new Error('Not implemented');
+    let queue = [root];
+    while(queue.length > 0) {
+        let node = queue.shift();
+        yield node;
+        if (node.children) Array.prototype.push.apply(queue, node.children);
+    }   
+    // throw new Error('Not implemented');
 }
 
 
