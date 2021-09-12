@@ -128,12 +128,17 @@ function* depthTraversalTree(root) {
  */
 function* breadthTraversalTree(root) {
     // let queue = [root];
+    // let node, children;
     // while(queue.length > 0) {
-    //     let node = queue[0];
+    //     // node = {n: undefined, children: []};
+    //     // Object.assign(node, queue[0]);
+    //     // node.children = [...queue[0].children];
+    //     node = queue[0];
+    //     children = queue[0].children;
     //     queue = queue.slice(1);
-    //     let children = node['children'];
+    //     // children = node['children'];
     //     yield node;
-    //     if (children > 0) queue = [...queue, ...children];
+    //     if (children > 0) queue = [...queue, ...node.children.map(x => {n: x.n; children: [...x.children]})];
     // }   
     throw new Error('Not implemented');
 }
@@ -153,8 +158,23 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    // yield* [...source1, ...source2].sort();
-    throw new Error('Not implemented');
+    // yield* [...Array.from(source1), ...Array.from(source2)].sort();
+    let arr1 = source1();
+    let arr2 = source2();
+    let x = arr1.next(), 
+        y = arr2.next(),
+        res;
+    while(!x.done || !y.done) {
+        if      ((!x.done && res === x.value) || y.done) x = arr1.next();
+        else if ((!y.done && res === y.value) || x.done) y = arr2.next();
+
+        if (!x.done && !y.done) res = x.value > y.value ? y.value : x.value;
+        else if (!x.done) res = x.value;
+        else if (!y.done) res = y.value;
+
+        if (!x.done || !y.done) yield res;
+    }
+    // throw new Error('Not implemented');
 }
 
 
