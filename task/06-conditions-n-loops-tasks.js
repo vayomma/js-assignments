@@ -129,11 +129,12 @@ function isTriangle(a,b,c) {
  *  
  */
 function doRectanglesOverlap(rect1, rect2) {
-    // let [left1, top1, right1, bottom1] = 
-    //     [rect1.left, rect1.top, rect1.left + rect1.width, rect1.top + rect1.height];
-    // let [left2, top2, right2, bottom2] = 
-    //     [rect2.left, rect2.top, rect2.left + rect2.width, rect2.top + rect2.height];
-    throw new Error('Not implemented');
+    let [left1, top1, right1, bottom1] = 
+        [rect1.left, rect1.top, rect1.left + rect1.width, rect1.top + rect1.height];
+    let [left2, top2, right2, bottom2] = 
+        [rect2.left, rect2.top, rect2.left + rect2.width, rect2.top + rect2.height];
+    return bottom1 > top2 && bottom2 > top1 && right1 > left2 && right2 > left1;
+    // throw new Error('Not implemented');
 }
 
 
@@ -442,7 +443,21 @@ function getCommonDirectoryPath(pathes) {
  *
  */
 function getMatrixProduct(m1, m2) {
-    throw new Error('Not implemented');
+    let res = [];
+    for (let i = 0; i < m1.length; i++) res[i] = [];
+
+    for (let k = 0; k < m1.length; k++) {
+        for (let i = 0; i < m1.length; i++) {
+            let val = 0;
+            for (let j = 0; j < m2.length; j++) {
+                val += m1[k][j] * m2[j][i];
+            }
+            res[k][i] = val;
+        }
+    }
+
+    return res;
+    // throw new Error('Not implemented');
 }
 
 
@@ -477,10 +492,30 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    // const WINS = [123, 456, 789, 147, 258, 369, 159, 357];
-    // let posXO = position.reduce((res, val, iy) => [...res, ...val.map((x, ix) => [3 * iy + ix + 1, x])], []);
-    // return posXO;
-    throw new Error('Not implemented');
+    const POS_WINS = [
+        [1, 2, 3], 
+        [4, 5, 6], 
+        [7, 8, 9], 
+        [1, 4, 7], 
+        [2, 5, 8], 
+        [3, 6, 9], 
+        [1, 5, 9], 
+        [3, 5, 7]
+    ];
+    let posX = [], posY = [];
+    for (let i = 0; i < position.length; i++) {
+        for (let j = 0; j < position[i].length; j++) {
+            if(position[i][j] === 'X') posX.push(3 * i + j + 1);
+            else if (position[i][j] === '0') posY.push(3 * i + j + 1);
+        };
+    };
+    for (let i = 0; i < POS_WINS.length; i++) {
+        let res = POS_WINS[i].some(x => posX.indexOf(x) === -1) === false ? 'X' :
+                  POS_WINS[i].some(y => posY.indexOf(y) === -1) === false ? '0' : undefined;
+        if (res === 'X' || res === '0') return res;
+    }
+    return undefined;
+    // throw new Error('Not implemented');
 }
 
 
