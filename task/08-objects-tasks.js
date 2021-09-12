@@ -40,7 +40,8 @@ function Rectangle(width, height) {
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
 function getJSON(obj) {
-    throw new Error('Not implemented');
+    return JSON.stringify(obj);
+    // throw new Error('Not implemented');
 }
 
 
@@ -56,6 +57,11 @@ function getJSON(obj) {
  *
  */
 function fromJSON(proto, json) {
+    // let res = {...JSON.parse(json)};
+    // res.__proto__ = proto;
+    // return res;
+    // return Object.create(proto, {...JSON.parse(json)});
+    // return {...JSON.stringify(proto.prototype), ...JSON.parse(json)};
     throw new Error('Not implemented');
 }
 
