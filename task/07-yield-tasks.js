@@ -1,5 +1,4 @@
 'use strict';
-
 /********************************************************************************************
  *                                                                                          *
  * Plese read the following tutorial before implementing tasks:                             *
@@ -33,7 +32,16 @@
  *
  */
 function* get99BottlesOfBeer() {
-    throw new Error('Not implemented');
+    let count = 99;
+    let getBottle = (x) => x > 1 || x === 0 ? 'bottles' : 'bottle';
+    let getCount = (x) => x > 0 ? x : 'no more';
+    while (count > 0) {
+        yield `${count} ${getBottle(count)} of beer on the wall, ${count} ${getBottle(count)} of beer.`; 
+        yield `Take one down and pass it around, ${getCount(--count)} ${getBottle(count)} of beer on the wall.`;
+    }
+    yield `No more bottles of beer on the wall, no more bottles of beer.`;
+    yield `Go to the store and buy some more, 99 bottles of beer on the wall.`;
+    // throw new Error('Not implemented');
 }
 
 
@@ -47,7 +55,15 @@ function* get99BottlesOfBeer() {
  *
  */
 function* getFibonacciSequence() {
-    throw new Error('Not implemented');
+    let step, x1 = 0, x2 = 1;
+    yield x1;
+    yield x2;
+    while(true) {
+        step = x2;
+        yield x2 = x1 + x2;
+        x1 = step; 
+    }
+    // throw new Error('Not implemented');
 }
 
 
@@ -82,7 +98,16 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-    throw new Error('Not implemented');
+    let stack = [root];
+    
+    while (stack.length > 0) {
+        let node = stack.pop();
+        yield node;
+        if (node.children) {
+            Array.prototype.push.apply(stack, node.children.map(x => x).reverse());
+        }
+    }
+    // throw new Error('Not implemented');
 }
 
 
@@ -108,7 +133,13 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-    throw new Error('Not implemented');
+    let queue = [root];
+    while(queue.length > 0) {
+        let node = queue.shift();
+        yield node;
+        if (node.children) Array.prototype.push.apply(queue, node.children);
+    }   
+    // throw new Error('Not implemented');
 }
 
 
@@ -126,7 +157,23 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-    throw new Error('Not implemented');
+    // yield* [...Array.from(source1), ...Array.from(source2)].sort();
+    let arr1 = source1();
+    let arr2 = source2();
+    let x = arr1.next(), 
+        y = arr2.next(),
+        res;
+    while(!x.done || !y.done) {
+        if      ((!x.done && res === x.value) || y.done) x = arr1.next();
+        else if ((!y.done && res === y.value) || x.done) y = arr2.next();
+
+        if (!x.done && !y.done) res = x.value > y.value ? y.value : x.value;
+        else if (!x.done) res = x.value;
+        else if (!y.done) res = y.value;
+
+        if (!x.done || !y.done) yield res;
+    }
+    // throw new Error('Not implemented');
 }
 
 
