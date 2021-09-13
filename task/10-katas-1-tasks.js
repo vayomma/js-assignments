@@ -122,11 +122,16 @@ function getZigZagMatrix(n) {
  *
  */
 function canDominoesMakeRow(dominoes) {
-    // for(let i in dominoes) {
-    //     for(let j = 0; j < dominoes.length; j++) {
+    // let idx, result = false, seq = [];
 
+    // for (let i in dominoes) {
+    //     seq.push(i);
+    //     for (let j = 0; j < dominoes.length; j++) {
+    //         if (seq.includes(j)) continue;
+    //         if (dominoes(i)[idx] === dominoes[j][0]) 
     //     }
     // }
+    // return result;
     throw new Error('Not implemented');
 }
 
