@@ -22,7 +22,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-   throw new Error('Not implemented');
+   return new Date(value);
 }
 
 /**
@@ -37,7 +37,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-   throw new Error('Not implemented');
+   return new Date(value);
 }
 
 
@@ -56,7 +56,11 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-   throw new Error('Not implemented');
+   return date.getFullYear() % 100 === 0 ?
+          date.getFullYear() % 400 === 0 :
+          date.getFullYear() % 4   === 0;
+   // throw new Error('Not implemented');
+   
 }
 
 
@@ -76,7 +80,17 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   throw new Error('Not implemented');
+   let _sss = endDate.getMilliseconds() - startDate.getMilliseconds();
+   let _ss  = endDate.getSeconds()      - startDate.getSeconds() + (Math.sign(_sss) === -1 ? -1 : 0);
+   let _mm  = endDate.getMinutes()      - startDate.getMinutes() + (Math.sign(_ss)  === -1 ? -1 : 0);
+   let _hh  = endDate.getHours()        - startDate.getHours()   + (Math.sign(_mm)  === -1 ? -1 : 0);
+   let sss = (_sss + 1000).toString().slice(1);
+   let ss  = (_ss  + 100).toString().slice(1);
+   let mm  = (_mm  + 100).toString().slice(1);
+   let hh  = (_hh  + 100).toString().slice(1);
+   return `${hh}:${mm}:${ss}.${sss}`;
+   // throw new Error('Not implemented');
+   
 }
 
 
@@ -94,7 +108,10 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-    throw new Error('Not implemented');
+   let angle =  Math.abs(0.5 * (60 * date.getUTCHours() - 11 * date.getUTCMinutes()));
+   if(angle > 360) return (angle - 360 > 180 ? (720 - angle) : angle - 360) * Math.PI / 180;
+   return (angle > 180 ? (360 - angle) : angle) * Math.PI / 180;
+   //  throw new Error('Not implemented');
 }
 
 
