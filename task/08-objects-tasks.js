@@ -57,6 +57,12 @@ function getJSON(obj) {
  *
  */
 function fromJSON(proto, json) {
+    // return proto.apply(this, JSON.parse(json)); 
+    // let obj = new proto.constructor();
+    // let component = JSON.parse(json);
+    // for (let prop in component) 
+    //     if (component.hasOwnProperty(prop)) obj[prop] = component[prop];
+    // return obj;
     // return Object.assign(new proto.constructor(), JSON.parse(json));
     throw new Error('Not implemented');
 }
