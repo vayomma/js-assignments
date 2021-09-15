@@ -33,54 +33,37 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
 
     let visitedStack, toVisitStack = [];
 
-    let toVisit = (puzzleNode, searchNode) => {
-            toVisitStack.push({value: _PUZZLE[searchNode], 
-                               puzzleIdx: +puzzleNode,
-                               searchIdx: +searchNode});
-        },
-        visited = (node) => visitedStack.push(node.puzzleIdx),
-        isSnaking = (node) => {
-            let isContinue = false,
-                searchIdx = node.searchIdx + 1,
+    let isWillVisit = (puzzleIdx, searchIdx) => toVisitStack.push({ puzzleIdx, searchIdx }) == true,
+        isVisited = (node) => {
+            let [isContinue, searchIdx] = [false, node.searchIdx + 1],
                 top    = node.puzzleIdx - STEP,
                 right  = node.puzzleIdx + 1,
                 bottom = node.puzzleIdx + STEP,
-                left   = node.puzzleIdx - 1;
+                left   = node.puzzleIdx - 1,
+                isSnaking = (node) => {
+                    return node > -1 
+                           && node < _PUZZLE.length
+                           && !visitedStack.includes(node) 
+                           && _PUZZLE[node] === searchStr[searchIdx];
+                };
 
-            if (top > -1 
-                && !visitedStack.includes(top) 
-                && _PUZZLE[top] === searchStr[searchIdx]) {
-                toVisit(top, searchIdx);
-                isContinue = true;
-            } if (right < _PUZZLE.length 
-                && !visitedStack.includes(right) 
-                && _PUZZLE[right] === searchStr[searchIdx]) {
-                toVisit(right, searchIdx);
-                isContinue = true;
-            } if (bottom < _PUZZLE.length 
-                && !visitedStack.includes(bottom) 
-                && _PUZZLE[bottom] === searchStr[searchIdx]) {
-                toVisit(bottom, searchIdx);
-                isContinue = true;
-            } if (left > -1 
-                && !visitedStack.includes(left) 
-                && _PUZZLE[left] === searchStr[searchIdx]) {
-                toVisit(left, searchIdx);
-                isContinue = true;
-            }
+            if (isSnaking(top)) isContinue = isWillVisit(top, searchIdx);
+            if (isSnaking(right)) isContinue = isWillVisit(right, searchIdx);
+            if (isSnaking(bottom)) isContinue = isWillVisit(bottom, searchIdx);
+            if (isSnaking(left)) isContinue = isWillVisit(left, searchIdx);
             return isContinue;
-        };
+        },
+        visited = (node) => visitedStack.push(node.puzzleIdx);
         
     for (let i in _PUZZLE) {
         visitedStack = [];
-        if (_PUZZLE[i] === searchStr[0]) toVisit(i, 0);
+        if (_PUZZLE[i] === searchStr[0]) isWillVisit(Number(i), 0);
 
         while(toVisitStack.length > 0) {
             let node = toVisitStack.pop();
-
-            if (isSnaking(node)) visited(node)
+            if (node.searchIdx === searchStr.length - 1) return true;
+            if (isVisited(node)) visited(node);
             //else visitedStack.pop();
-            if (visitedStack.length === searchStr.length) return true;
         }
     }
     return false;
