@@ -28,7 +28,63 @@
  *   'NULL'      => false 
  */
 function findStringInSnakingPuzzle(puzzle, searchStr) {
-    throw new Error('Not implemented');
+    const _PUZZLE = puzzle.reduce((res, val) => [...res, ...val], []),
+          STEP    = puzzle[0].length;
+
+    let visitedStack, toVisitStack = [];
+
+    let toVisit = (puzzleNode, searchNode) => {
+            toVisitStack.push({value: _PUZZLE[searchNode], 
+                               puzzleIdx: +puzzleNode,
+                               searchIdx: +searchNode});
+        },
+        visited = (node) => visitedStack.push(node.puzzleIdx),
+        isSnaking = (node) => {
+            let isContinue = false,
+                searchIdx = node.searchIdx + 1,
+                top    = node.puzzleIdx - STEP,
+                right  = node.puzzleIdx + 1,
+                bottom = node.puzzleIdx + STEP,
+                left   = node.puzzleIdx - 1;
+
+            if (top > -1 
+                && !visitedStack.includes(top) 
+                && _PUZZLE[top] === searchStr[searchIdx]) {
+                toVisit(top, searchIdx);
+                isContinue = true;
+            } if (right < _PUZZLE.length 
+                && !visitedStack.includes(right) 
+                && _PUZZLE[right] === searchStr[searchIdx]) {
+                toVisit(right, searchIdx);
+                isContinue = true;
+            } if (bottom < _PUZZLE.length 
+                && !visitedStack.includes(bottom) 
+                && _PUZZLE[bottom] === searchStr[searchIdx]) {
+                toVisit(bottom, searchIdx);
+                isContinue = true;
+            } if (left > -1 
+                && !visitedStack.includes(left) 
+                && _PUZZLE[left] === searchStr[searchIdx]) {
+                toVisit(left, searchIdx);
+                isContinue = true;
+            }
+            return isContinue;
+        };
+        
+    for (let i in _PUZZLE) {
+        visitedStack = [];
+        if (_PUZZLE[i] === searchStr[0]) toVisit(i, 0);
+
+        while(toVisitStack.length > 0) {
+            let node = toVisitStack.pop();
+
+            if (isSnaking(node)) visited(node)
+            //else visitedStack.pop();
+            if (visitedStack.length === searchStr.length) return true;
+        }
+    }
+    return false;
+    // throw new Error('Not implemented');
 }
 
 
