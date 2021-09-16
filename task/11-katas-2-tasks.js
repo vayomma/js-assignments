@@ -100,7 +100,79 @@ const PokerRank = {
 }
 
 function getPokerHandRank(hand) {
-    throw new Error('Not implemented');
+    let isPair, isTwoPair, isThree, isStraight, isFlush, isFullHouse, isFour;
+    let firstPair, secondPair;
+    
+    const RANKS = [
+        '2', '3', '4', '5', '6', '7', '8', '9', 
+        '10', 'J', 'Q', 'K', 'A'];
+
+    let hasPair = cardsArr => {
+        for (let i in cardsArr) {
+            let idx = [...cardsArr.slice(0, i), ...cardsArr.slice(i + 1)].indexOf(cardsArr[i]);
+            if (idx > -1) {
+                return { card: cardsArr[i], 
+                         firstIdx: Math.min(i, idx), 
+                         secondIdx: Math.max(i, idx)};
+            };
+        }
+        return { 
+            card: undefined, 
+            firstIdx: -1, 
+            secondIdx: -1
+        }
+    };
+
+    let deletePair = (cardsArr, card) => {
+        let i = 0, arr = cardsArr;
+        while (i < 2) {
+            let idx = arr.indexOf(card);
+            arr = [
+                ...arr.slice(0, idx), 
+                ...arr.slice(idx + 1)];
+            i++;
+        }
+        return arr;
+    }
+
+    let cards = hand.map(val => val.slice(0, -1))
+                    .sort((a, b) => RANKS.indexOf(a) - RANKS.indexOf(b));
+
+    firstPair = hasPair(cards);
+    if (typeof firstPair.card !== 'undefined') isPair = true;
+
+    if (!isPair) {
+        isFlush = hand.every(val => val.slice(-1) === hand[0].slice(-1));
+
+        let isAinCards = cards[cards.length - 1] === 'A';
+        if (isAinCards) cards.pop();
+
+        isStraight = ((isAinCards && RANKS.indexOf(cards[cards.length - 1]) === 3) ||
+                      (isAinCards && RANKS.indexOf(cards[0]) === 8) || 
+                      (!isAinCards && RANKS.indexOf(cards[cards.length - 1]) - RANKS.indexOf(cards[0]) === 4));
+    } else {
+
+        let threeCards = deletePair(cards, firstPair.card);
+        secondPair = hasPair(threeCards);
+
+        if (typeof secondPair.card !== 'undefined') {
+            if (firstPair.card === secondPair.card) isFour = true;
+            else if (threeCards.includes(firstPair.card) 
+                || deletePair(threeCards, secondPair.card)[0] === secondPair.card)
+                isFullHouse = true;
+            else isTwoPair = true;
+        } else if (threeCards.includes(firstPair.card)) isThree = true;
+    }
+    if (isFlush && isStraight) return PokerRank.StraightFlush;
+    else if (isFour) return PokerRank.FourOfKind;
+    else if (isFullHouse) return PokerRank.FullHouse;
+    else if (isFlush) return PokerRank.Flush;
+    else if (isStraight) return PokerRank.Straight;
+    else if (isThree) return PokerRank.ThreeOfKind;
+    else if (isTwoPair) return PokerRank.TwoPairs;
+    else if (isPair) return PokerRank.OnePair;
+    else return PokerRank.HighCard;
+    // throw new Error('Not implemented');
 }
 
 
