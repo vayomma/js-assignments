@@ -84,7 +84,11 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
  *    'abc' => 'abc','acb','bac','bca','cab','cba'
  */
 function* getPermutations(chars) {
-    let [length, result] = [chars.length, chars];
+    let str = chars;
+    yield str;
+
+    let array = (new Array(chars.length)).fill(0);
+
     let swaped = (string, i, j) => {
         if (i !== j)
             return string.slice(0, Math.min(i, j)) + 
@@ -94,17 +98,15 @@ function* getPermutations(chars) {
                    string.slice(Math.max(i, j) + 1);
         else return string;
     }
-    let generate = function*(k, str){
-        if (k === 1) yield str;
-        else {
-            yield* generate(k - 1, str);
-            for (let i = 0; i < k - 1; i++) {
-                str = k % 2 === 0 ? swaped(str, i, k - 1) : swaped(str, 0, k - 1);
-                yield* generate(k - 1, str);
-            }
-        }
+    let i = 1;
+    while (i < chars.length) {
+        if  (array[i] < i) {
+            str = i % 2 === 0 ? swaped(str, 0, i) : swaped(str, array[i], i);
+            yield str;
+            array[i]++;
+            i = 1;
+        } else array[i++] = 0;
     }
-    yield* generate(length, result);
     // throw new Error('Not implemented');
 }
 
