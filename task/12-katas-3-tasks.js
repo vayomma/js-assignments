@@ -84,8 +84,18 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
  *    'abc' => 'abc','acb','bac','bca','cab','cba'
  */
 function* getPermutations(chars) {
-    // let seq = chars.split('');
-
+    // if (chars.length > 1) {
+    //     for (let i in chars.split('')) {
+    //         let str = `${chars.slice(0, i)}${chars.slice(i + 1)}`;
+    //         if (str.length > 1) {
+    //             yield* `${chars[i]}${getPermutations(str)}`;
+    //             yield* `${getPermutations(str)}${chars[i]}`;
+    //         } else {
+    //             yield `${chars[i]}${str}`;
+    //             yield `${str}${chars[i]}`;                
+    //         }
+    //     }
+    // } else yield chars;
     throw new Error('Not implemented');
 }
 
