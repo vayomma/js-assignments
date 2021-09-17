@@ -84,19 +84,28 @@ function findStringInSnakingPuzzle(puzzle, searchStr) {
  *    'abc' => 'abc','acb','bac','bca','cab','cba'
  */
 function* getPermutations(chars) {
-    // if (chars.length > 1) {
-    //     for (let i in chars.split('')) {
-    //         let str = `${chars.slice(0, i)}${chars.slice(i + 1)}`;
-    //         if (str.length > 1) {
-    //             yield* `${chars[i]}${getPermutations(str)}`;
-    //             yield* `${getPermutations(str)}${chars[i]}`;
-    //         } else {
-    //             yield `${chars[i]}${str}`;
-    //             yield `${str}${chars[i]}`;                
-    //         }
-    //     }
-    // } else yield chars;
-    throw new Error('Not implemented');
+    let [length, result] = [chars.length, chars];
+    let swaped = (string, i, j) => {
+        if (i !== j)
+            return string.slice(0, Math.min(i, j)) + 
+                   string.charAt(Math.max(i, j)) +
+                   string.slice(Math.min(i, j) + 1, Math.max(i, j)) +
+                   string.charAt(Math.min(i, j)) +
+                   string.slice(Math.max(i, j) + 1);
+        else return string;
+    }
+    let generate = function*(k, str){
+        if (k === 1) yield str;
+        else {
+            yield* generate(k - 1, str);
+            for (let i = 0; i < k - 1; i++) {
+                str = k % 2 === 0 ? swaped(str, i, k - 1) : swaped(str, 0, k - 1);
+                yield* generate(k - 1, str);
+            }
+        }
+    }
+    yield* generate(length, result);
+    // throw new Error('Not implemented');
 }
 
 
