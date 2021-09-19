@@ -97,14 +97,43 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    // let [lr, tb, zz] = [1, n, n - 1];
-    // let direct = lr;
-    // for (let i = 0; i < n; i++) {
-    //     if (direct === lr) {
-
-    //     }
-    // }
-    throw new Error('Not implemented');
+    let [lr, tb, zz] = [1, n, n - 1];
+    let [zzIdx, zzCount] = [1, 2];
+    let direct = lr;
+    let resArr = new Array(n * n);
+    resArr[0] = 0;
+    let result = [];
+    for (let i = 0; i < n * n; i++) {
+        if (direct === zz) {
+            resArr[i + zz] = i + 1;
+            if (++zzIdx >= zzCount) {
+                zzIdx = 1;
+                zzCount = zzCount < n ? zzCount + 1 : zzCount - 1;
+                direct = i < n * n / 2 ? tb : lr;
+            }
+        }
+        if (direct === -zz) {
+            resArr[i - zz] = i + 1;
+            if (++zzIdx >= zzCount) {
+                zzIdx = 1;
+                zzCount = zzCount < n ? zzCount + 1 : zzCount - 1;
+                direct = i < n * n / 2 ? lr : tb;
+            }
+        }
+        if (direct === lr) {
+            resArr[i + lr] = i + 1;
+            direct = zz;
+        }
+        if (direct === tb) {
+            resArr[i + tb] = i + 1;
+            direct = -zz;
+        }
+    }
+    for (let i = 0; i < n; i++) {
+        result.push(resArr.slice(n * i, n * i + n));
+    }
+    return result;
+    // throw new Error('Not implemented');
 }
 
 
