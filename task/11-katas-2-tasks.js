@@ -63,7 +63,14 @@ function parseBankAccount(bankAccount) {
  *                                                                                                'characters.'
  */
 function* wrapText(text, columns) {
-    throw new Error('Not implemented');
+    let idx, tail = text;
+    while (tail.length > columns) {
+        idx = tail.slice(0, columns + 1).lastIndexOf(' ');
+        yield tail.slice(0, idx).trim();
+        tail = tail.slice(idx + 1).trim();
+    }
+    yield tail;
+    // throw new Error('Not implemented');
 }
 
 
