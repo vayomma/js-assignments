@@ -97,6 +97,13 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
+    // let [lr, tb, zz] = [1, n, n - 1];
+    // let direct = lr;
+    // for (let i = 0; i < n; i++) {
+    //     if (direct === lr) {
+
+    //     }
+    // }
     throw new Error('Not implemented');
 }
 
