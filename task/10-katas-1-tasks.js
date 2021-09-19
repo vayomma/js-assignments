@@ -98,47 +98,47 @@ function* expandBraces(str) {
  *
  */
 function getZigZagMatrix(n) {
-    let LR = {name: 'from left to right', step: 1};
-    let TB = {name: 'from top to bottom', step: n + 1};
-    let ZZ = {name: 'diagonal', step: n - 1};
-    let [lr, tb, zz] = [1, n, n - 1];
-    let [zzIdx, zzCount] = [1, 2];
-    let direct = LR;
-    let resArr = new Array(n * n);
-    resArr[0] = 0;
-    let result = [];
-    for (let i = 0; i < n * n - 1; i++) {
-        if (direct.name === 'diagonal' && direct.step === n - 1) {
-            resArr[i + direct.step] = i + 1;
-            if (++zzIdx >= zzCount) {
-                zzIdx = 1;
-                zzCount = zzCount < n ? zzCount + 1 : zzCount - 1;
-                direct = i < (n * n - 1) / 2 ? TB : LR;
-            }
-        }
-        else if (direct.name === 'diagonal' && direct.step === 1 - n) {
-            resArr[i + direct.step] = i + 1;
-            if (++zzIdx >= zzCount) {
-                zzIdx = 1;
-                zzCount = zzCount < n ? zzCount + 1 : zzCount - 1;
-                direct = i < (n * n - 1) / 2 ? LR : TB;
-            }
-        }
-        else if (direct.name === 'from left to right') {
-            resArr[i + direct.step] = i + 1;
-            direct = ZZ;
-        }
-        else if (direct.name === 'from top to bottom') {
-            resArr[i + direct.step] = i + 1;
-            direct = ZZ;
-            direct.step = -direct.step;
-        }
-    }
-    for (let i = 0; i < n; i++) {
-        result.push(resArr.slice(n * i, n * i + n));
-    }
-    return result;
-    // throw new Error('Not implemented');
+    // let LR = {name: 'from left to right', step: 1};
+    // let TB = {name: 'from top to bottom', step: n + 1};
+    // let ZZ = {name: 'diagonal', step: n - 1};
+    // let [lr, tb, zz] = [1, n, n - 1];
+    // let [zzIdx, zzCount] = [1, 2];
+    // let direct = LR;
+    // let resArr = new Array(n * n);
+    // resArr[0] = 0;
+    // let result = [];
+    // for (let i = 0; i < n * n - 1; i++) {
+    //     if (direct.name === 'diagonal' && direct.step === n - 1) {
+    //         resArr[i + direct.step] = i + 1;
+    //         if (++zzIdx >= zzCount) {
+    //             zzIdx = 1;
+    //             zzCount = zzCount < n ? zzCount + 1 : zzCount - 1;
+    //             direct = i < (n * n - 1) / 2 ? TB : LR;
+    //         }
+    //     }
+    //     else if (direct.name === 'diagonal' && direct.step === 1 - n) {
+    //         resArr[i + direct.step] = i + 1;
+    //         if (++zzIdx >= zzCount) {
+    //             zzIdx = 1;
+    //             zzCount = zzCount < n ? zzCount + 1 : zzCount - 1;
+    //             direct = i < (n * n - 1) / 2 ? LR : TB;
+    //         }
+    //     }
+    //     else if (direct.name === 'from left to right') {
+    //         resArr[i + direct.step] = i + 1;
+    //         direct = ZZ;
+    //     }
+    //     else if (direct.name === 'from top to bottom') {
+    //         resArr[i + direct.step] = i + 1;
+    //         direct = ZZ;
+    //         direct.step = -direct.step;
+    //     }
+    // }
+    // for (let i = 0; i < n; i++) {
+    //     result.push(resArr.slice(n * i, n * i + n));
+    // }
+    // return result;
+    throw new Error('Not implemented');
 }
 
 
